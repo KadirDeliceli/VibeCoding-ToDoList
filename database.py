@@ -92,10 +92,7 @@ class Database:
         if category_id == self.default_category_id or category_name in default_categories:
             return
         with self.tx() as con:
-            con.execute(
-                "UPDATE tasks SET category_id = ? WHERE category_id = ?",
-                (self.default_category_id, category_id),
-            )
+            con.execute("DELETE FROM tasks WHERE category_id = ?", (category_id,))
             con.execute("DELETE FROM categories WHERE id = ?", (category_id,))
 
     # --- tasks ---
